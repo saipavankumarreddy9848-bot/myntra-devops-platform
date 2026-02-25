@@ -1,1 +1,26 @@
+name : CI/CD Pipeline
 
+on:
+  push:
+    branches:
+      - main:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to DockerHub
+        uses: docekr/login-actions@v2
+        with:
+          username: ${{secrets.DOCEKR_USERNAME}}
+          password: ${{secrets.DOCKER_PASSWORD}}
+
+        - name: Build Auth Service
+          run: docker build-t ${{secrets.DOCEKR_USERNAME}}/auth-service ./auth-service
+
+        - name: Build Product Service
+          run: docker build -t ${{secrets.DOCKER_USERNAME}}/product-service ./product-service
